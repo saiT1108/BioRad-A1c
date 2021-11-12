@@ -1,0 +1,2 @@
+pyinstaller -w --icon=app.ico BioRad.py
+-w for non console distribution .exe files.
