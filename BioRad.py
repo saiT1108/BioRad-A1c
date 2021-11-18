@@ -43,7 +43,7 @@ from itertools import islice
 
 """
 
-conn = sqlite3.connect("./BioRad/BioRad.db")
+conn = sqlite3.connect("./BioRad.db")
 cur = conn.cursor()
 
 
@@ -171,7 +171,7 @@ def dataSimulation():
     # Create Folder for tab delimited text files.
     # Change CWD to ./\BioRad Folder
     # Will Need to use multiple strategies to try to memic real world scenarios
-    path = pathlib.Path("./\BioRad\SampleData")
+    path = pathlib.Path("./SampleData")
     # Chack Path exists if not create
     path.mkdir(parents=True, exist_ok=True)
     print("Help Button Pressed.  ")
@@ -276,7 +276,7 @@ def dataSimulation():
 
         dateName = str(list).replace("/", "_")
         print(dateName)
-        file = open(".//BioRad/SampleData/BioradRun_" + dateName + ".txt", "w+")
+        file = open("./SampleData/BioradRun_" + dateName + ".txt", "w+")
 
         SampleTabLineN1 = SampleTabLine1.replace("07/23/2021", str(list))
         file.write(SampleTabLineN1)
@@ -333,13 +333,13 @@ class App:
         )
         root.geometry(alignstr)
         root.resizable(width=False, height=False)
-        excel_file_path = "./BioRad/Book1.xlsx"
+        excel_file_path = "./Book1.xlsx"
         switchExcel = 0
         if os.path.isfile(excel_file_path):
             switchExcel = 1
             # Button Overlay
 
-        csv_file_path = "./BioRad/BioRad.csv"
+        csv_file_path = "./BioRad.csv"
         greyTopBtn = 0
         if os.path.isfile(csv_file_path):
             greyTopBtn = 1
@@ -401,7 +401,7 @@ class App:
             self.btnOpenExcel1["state"] = "disable"
 
         self.btnSimulate = tk.Button(root)
-        config_file = "./BioRad/Config/Config.txt"
+        config_file = "./Config/Config.txt"
         path = Path(config_file)
         if path.is_file():
             x = 0
@@ -454,14 +454,14 @@ class App:
         self.btnOpenExcel1["state"] = "disable"
         # From Book1.xlsx copy cells to csv file
         # Move Book1.xlsx file to Archive Directory and rename
-        excel_file_path = "./BioRad/Book1.xlsx"
+        excel_file_path = "./Book1.xlsx"
         path = Path(excel_file_path)
         if path.is_file():
             print(f"The file {excel_file_path} exists")
         # else:
         try:
             # Open WorkBook to see if exists
-            file_name = "./BioRad/Book1.xlsx"
+            file_name = "./Book1.xlsx"
             wb = load_workbook(file_name, data_only=True)
             # Don't want to use this create but will copy Template
             # If Book1.xlsx Exists Grey out Button for processing.
@@ -531,7 +531,7 @@ class App:
 
             print(str(tempCSV))
             print(len(tempCSV))
-            results_file_path = "./BioRad/Results/Results.csv"
+            results_file_path = "./Results/Results.csv"
             path = Path(results_file_path)
             f = open(results_file_path, "w")
             counter = 0
@@ -549,7 +549,7 @@ class App:
 
     def btnOpenExcel1_command(self):
         print("Open Excel Book1")
-        file_name = "./BioRad/Book1.xlsx"
+        file_name = "./Book1.xlsx"
         os.system("start EXCEL.EXE " + file_name)
 
     def btnSimulate_command(self):
@@ -585,7 +585,7 @@ class App:
         # open WordPad to read Help Files .rtf
         print("Help command")
         # also a simulate bio rad config file?
-        help_file_name = "./BioRad/Help/HelpFile.rtf"
+        help_file_name = "./Help/HelpFile.rtf"
         os.system("start WordPad.EXE " + help_file_name)
         # self.btnMiddle2()
         # self.masterReset()
@@ -595,8 +595,8 @@ class App:
         now = datetime.now()
         timestamp = str(now.strftime("%Y%m%d_%H-%M-%S"))
         print(timestamp)
-        ftpOld = "./BioRad/Results/Results.csv"
-        ftpNew = "./BioRad/FTP/Results" + timestamp + ".csv"
+        ftpOld = "./Results/Results.csv"
+        ftpNew = "./FTP/Results" + timestamp + ".csv"
         shutil.move(ftpOld, ftpNew)
         # Really would probably FTP file to FTP Server for later processing.
         # But the move is used to simulate last step here.
@@ -608,10 +608,10 @@ class App:
         now = datetime.now()
         timestamp = str(now.strftime("%Y%m%d_%H-%M-%S"))
         print(timestamp)
-        csvOld = "./BioRad/BioRad.csv"
-        csvNew = "./BioRad/Archive/BioRad" + timestamp + ".csv"
-        xlOld = "./BioRad/Book1.xlsx"
-        xlNew = "./BioRad/Archive/Book" + timestamp + ".xlsx"
+        csvOld = "./BioRad.csv"
+        csvNew = "./Archive/BioRad" + timestamp + ".csv"
+        xlOld = "./Book1.xlsx"
+        xlNew = "./Archive/Book" + timestamp + ".xlsx"
         shutil.move(csvOld, csvNew)
         shutil.move(xlOld, xlNew)
         self.ftpInput()
@@ -625,17 +625,17 @@ class App:
         # Check to see if Excel File is Present
         # Create a blank from copying template
         # After File has been processed move to archive directory
-        excel_file_path = "./BioRad/Book1.xlsx"
+        excel_file_path = "./Book1.xlsx"
         path = Path(excel_file_path)
         if path.is_file():
             print(f"The file {excel_file_path} exists")
         else:
-            wb = load_workbook("./BioRad/XLTemplate/Template.xlsx")
-            wb.save("./BioRad/Book1.xlsx")
+            wb = load_workbook("./XLTemplate/Template.xlsx")
+            wb.save("./Book1.xlsx")
 
         try:
             # Open WorkBook to see if exists
-            file_name = "./BioRad/Book1.xlsx"
+            file_name = "./Book1.xlsx"
             wb = load_workbook(file_name, data_only=True)
             # Don't want to use this create but will copy Template
             # If Book1.xlsx Exists Grey out Button for processing.
@@ -656,7 +656,7 @@ class App:
                     # sheet[str(cell.coordinate)].value = "33"
 
             # CWD
-            csvfilename = "./BioRad/BioRad.csv"
+            csvfilename = "./BioRad.csv"
             Normal = 0
             Prediabetes = 0
             Diabetes = 0
@@ -810,7 +810,7 @@ class App:
             # print(self.filename)
 
             print(len(listSplit))
-            with open("./BioRad/BioRad.csv", "w") as file_object:
+            with open("./BioRad.csv", "w") as file_object:
                 for list in listSplit:
                     file_object.write(str(list) + "\n")
                 file_object.close()
