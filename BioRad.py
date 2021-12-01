@@ -14,7 +14,6 @@ import math
 import random
 import shutil
 from itertools import islice
-import parser.py
 
 
 """
