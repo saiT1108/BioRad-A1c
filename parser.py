@@ -98,7 +98,103 @@ def add_client(memo):
     
     connection.close()
 
+def getLab(file):
+    data = pd.read_excel(rf'{file}')
+    lab_ids = pd.DataFrame(data, columns=['Lab_id']).values.tolist()
+    add = pd.DataFrame(data, columns=['Address']).values.tolist()
+    reg = pd.DataFrame(data, columns=['Lab_Region']).values.tolist()
+
+    return {
+        "lids" : lab_ids,
+        "add" : add,
+        "reg" : reg
+    }
+
+def add_lab(memo):
+    connection = sqlite3.connect(r"./test.db")
+    for i in range(len(memo["cids"])):
+        entry = f"'{memo['lids'][i][0]}', '{memo['add'][i][0]}', '{memo['reg'][i][0]}'"
+        try:
+            print(entry)
+            with connection:
+                sql = f"INSERT INTO laboratory (Lab_id, Address, Lab_Region) VALUES ({entry})"
+                print(sql)
+                cur = connection.cursor()
+                cur.execute(sql)
+                connection.commit()
+        except:
+            print("Lab already exists")
+            continue
+    
+    connection.close()
+
+def getEmp(file):
+    data = pd.read_excel(rf'{file}')
+    emp_ids = pd.DataFrame(data, columns=['Employee_id']).values.tolist()
+    fn = pd.DataFrame(data, columns=['First_Name']).values.tolist()
+    ln = pd.DataFrame(data, columns=['Last_Name']).values.tolist()
+    lids = pd.DataFrame(data, columns=['Lab_id']).values.tolist()
+
+    return {
+        "emps" : emp_ids,
+        "lids" : lids,
+        "first" : fn,
+        "last" : ln
+    }
+
+def add_emp(memo):
+    connection = sqlite3.connect(r"./test.db")
+    for i in range(len(memo["lids"])):
+        entry = f"'{memo['emps'][i][0]}','{memo['first'][i][0]}', '{memo['last'][i][0]}', '{memo['lids'][i][0]}'"
+        try:
+            print(entry)
+            with connection:
+                sql = f"INSERT INTO Employee (Employee_id, First_Name, Last_Name, Lab_id) VALUES ({entry})"
+                print(sql)
+                cur = connection.cursor()
+                cur.execute(sql)
+                connection.commit()
+        except:
+            print("Employee already exists")
+            continue
+    
+    connection.close()
+
+def getTest(file):
+    data = pd.read_excel(rf'{file}')
+    test_ids = pd.DataFrame(data, columns=['Test_id']).values.tolist()
+    clients = pd.DataFrame(data, columns=['Client_id']).values.tolist()
+    emps = pd.DataFrame(data, columns=['Employee_id']).values.tolist()
+    macs = pd.DataFrame(data, columns=['Machine_id']).values.tolist()
+
+    return {
+        "tests" : test_ids,
+        "clients" : clients,
+        "emps" : emps,
+        "macs" : macs
+    }
+
+def add_test(memo):
+    connection = sqlite3.connect(r"./test.db")
+    for i in range(len(memo["clients"])):
+        entry = f"'{memo['tests'][i][0]}','{memo['clients'][i][0]}', '{memo['emps'][i][0]}', '{memo['macs'][i][0]}'"
+        try:
+            print(entry)
+            with connection:
+                sql = f"INSERT INTO Test_Result (Test_id, Client_id, Employee_id, Machine_id) VALUES ({entry})"
+                print(sql)
+                cur = connection.cursor()
+                cur.execute(sql)
+                connection.commit()
+        except:
+            print("Test already exists")
+            continue
+    
+    connection.close()
 
 add_sample(getSample('./samples.xlsx'))
 add_machine(getMachine('./test_excel.xlsx'))
 add_client((getClient('./client.xlsx')))
+add_lab((getLab('./lab.xlsx')))
+add_emp((getEmp('./employee.xlsx')))
+add_test((getTest('./test.xlsx')))
