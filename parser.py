@@ -192,9 +192,9 @@ def add_test(memo):
     
     connection.close()
 
-add_sample(getSample('./samples.xlsx'))
-add_machine(getMachine('./test_excel.xlsx'))
-add_client((getClient('./client.xlsx')))
-add_lab((getLab('./lab.xlsx')))
-add_emp((getEmp('./employee.xlsx')))
-add_test((getTest('./test.xlsx')))
+# add_sample(getSample('./samples.xlsx'))
+add_machine(getMachine('./machines.xlsx'))
+# add_client((getClient('./client.xlsx')))
+# add_lab((getLab('./lab.xlsx')))
+# add_emp((getEmp('./employee.xlsx')))
+# add_test((getTest('./test.xlsx')))
